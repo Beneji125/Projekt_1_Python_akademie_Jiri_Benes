@@ -6,6 +6,7 @@ email: Beneji125@gmail.com
 """
 
 import re
+import pprint
 
 TEXTS = ['''
 Situated about 10 miles west of Kemmerer,
@@ -57,99 +58,51 @@ if username in users and users[username] == password:
         print(f"TEXT_{TEXT_NUMBER}:{VYBRANY_TEXT}")
         print("-"*65)
 
-        TEXT_VYCISTENY_ROZDELENY = re.sub(r'[.,!?":;\'()]', '', VYBRANY_TEXT).split()
+        TEXT_VYCISTENY_ROZDELENY = re.sub(r'[.,!?":;\'()-]', ' ', VYBRANY_TEXT).split()
 
         TEXT_BEZ_CISEL = []
-        for words in TEXT_VYCISTENY_ROZDELENY:
-            if words.isalpha():
-                TEXT_BEZ_CISEL.append(words)
-        print(f"There are {(len(TEXT_BEZ_CISEL))} words in the selected text.")
-
-        titlecase_count = 0
-        for word in TEXT_VYCISTENY_ROZDELENY:
-            if word.istitle():
-                titlecase_count += 1
-        print(f"There are {(titlecase_count)} titlecase words")
-
-        uppercase_count = 0
-        for word in TEXT_BEZ_CISEL:
-            if word.isupper():
-                uppercase_count += 1
-        print(f"There are {(uppercase_count)} uppercase words.")
-
-        lowercase_count = 0
-        for word in TEXT_BEZ_CISEL:
-            if word.islower():
-                lowercase_count += 1
-        print(f"There are {(lowercase_count)} lowercase words.")
-
         TEXT_BEZ_SLOV = []
-        for numbers in TEXT_VYCISTENY_ROZDELENY:
-            if numbers.isnumeric():
-                TEXT_BEZ_SLOV.append(numbers)
-        print(f"There are {(len(TEXT_BEZ_SLOV))} numeric strings.")
-
         TEXT_BEZ_SLOV_SOUCET = []
-        for numbers in TEXT_VYCISTENY_ROZDELENY:
-            if numbers.isnumeric():
-                TEXT_BEZ_SLOV_SOUCET.append(int(numbers))
-        print(f"The sum of all the numbers is {sum(TEXT_BEZ_SLOV_SOUCET)}")
+        titlecase_count = 0
+        uppercase_count = 0
+        lowercase_count = 0
 
+        range_of_words = len(max(TEXT_VYCISTENY_ROZDELENY, key=len)) 
+        word_lengths = {f'word_length_{n}': [] for n in range(1, range_of_words + 1)}
+
+        for words_and_numbers in TEXT_VYCISTENY_ROZDELENY:
+            if words_and_numbers.isalpha():
+                TEXT_BEZ_CISEL.append(words_and_numbers)
+                if words_and_numbers.isalpha() and words_and_numbers.istitle():
+                    titlecase_count += 1
+                elif words_and_numbers.isalpha() and words_and_numbers.isupper():
+                    uppercase_count += 1
+                elif words_and_numbers.isalpha() and words_and_numbers.islower():
+                    lowercase_count += 1
+            elif words_and_numbers.isnumeric():
+                TEXT_BEZ_SLOV.append(words_and_numbers)
+                TEXT_BEZ_SLOV_SOUCET.append(int(words_and_numbers))
+            else: 
+                continue
+            length_of_word = len(words_and_numbers)
+            word_lengths[f'word_length_{length_of_word}'].append(words_and_numbers)
+
+        print(f"There are {(len(TEXT_BEZ_CISEL))} words in the selected text.")
+        print(f"There are {(titlecase_count)} titlecase words")     
+        print(f"There are {(uppercase_count)} uppercase words.")
+        print(f"There are {(lowercase_count)} lowercase words.")
+        print(f"There are {(len(TEXT_BEZ_SLOV))} numeric strings.")
+        print(f"The sum of all the numbers is {sum(TEXT_BEZ_SLOV_SOUCET)}")
         print("-"*65)
 
-        SLOVA_DLOUHA_1 = []
-        SLOVA_DLOUHA_2 = []
-        SLOVA_DLOUHA_3 = []
-        SLOVA_DLOUHA_4 = []
-        SLOVA_DLOUHA_5 = []
-        SLOVA_DLOUHA_6 = []
-        SLOVA_DLOUHA_7 = []
-        SLOVA_DLOUHA_8 = []
-        SLOVA_DLOUHA_9 = []
-        SLOVA_DLOUHA_10 = []
-        SLOVA_DLOUHA_11 = []
-        SLOVA_DLOUHA_12 = []
-        for words in TEXT_VYCISTENY_ROZDELENY:
-            if len(words) == 1:
-                SLOVA_DLOUHA_1.append(words)
-            elif len(words) == 2:
-                SLOVA_DLOUHA_2.append(words)
-            elif len(words) == 3:
-                SLOVA_DLOUHA_3.append(words)
-            elif len(words) == 4:
-                SLOVA_DLOUHA_4.append(words)
-            elif len(words) == 5:
-                SLOVA_DLOUHA_5.append(words)
-            elif len(words) == 6:
-                SLOVA_DLOUHA_6.append(words)
-            elif len(words) == 7:
-                SLOVA_DLOUHA_7.append(words)
-            elif len(words) == 8:
-                SLOVA_DLOUHA_8.append(words)
-            elif len(words) == 9:
-                SLOVA_DLOUHA_9.append(words)
-            elif len(words) == 10:
-                SLOVA_DLOUHA_10.append(words)
-            elif len(words) == 11:
-                SLOVA_DLOUHA_11.append(words)
-            elif len(words) == 12:
-                SLOVA_DLOUHA_12.append(words)
-        print(f"""{"LEN":<4}|{"OCCURENCES":^20}|{"NR.":>3}
-{"-"*65}
-{"1":<4}|{len(SLOVA_DLOUHA_1) * "*":<20}|{len(SLOVA_DLOUHA_1):>3}
-{"2":<4}|{len(SLOVA_DLOUHA_2) * "*":<20}|{len(SLOVA_DLOUHA_2):>3}
-{"3":<4}|{len(SLOVA_DLOUHA_3) * "*":<20}|{len(SLOVA_DLOUHA_3):>3}
-{"4":<4}|{len(SLOVA_DLOUHA_4) * "*":<20}|{len(SLOVA_DLOUHA_4):>3}
-{"5":<4}|{len(SLOVA_DLOUHA_5) * "*":<20}|{len(SLOVA_DLOUHA_5):>3}
-{"6":<4}|{len(SLOVA_DLOUHA_6) * "*":<20}|{len(SLOVA_DLOUHA_6):>3}
-{"7":<4}|{len(SLOVA_DLOUHA_7) * "*":<20}|{len(SLOVA_DLOUHA_7):>3}
-{"8":<4}|{len(SLOVA_DLOUHA_8) * "*":<20}|{len(SLOVA_DLOUHA_8):>3}
-{"9":<4}|{len(SLOVA_DLOUHA_9) * "*":<20}|{len(SLOVA_DLOUHA_9):>3}
-{"10":<4}|{len(SLOVA_DLOUHA_10) * "*":<20}|{len(SLOVA_DLOUHA_10):>3}
-{"11":<4}|{len(SLOVA_DLOUHA_11) * "*":<20}|{len(SLOVA_DLOUHA_11):>3}
-{"12":<4}|{len(SLOVA_DLOUHA_12) * "*":<20}|{len(SLOVA_DLOUHA_12):>3}
-{"-"*65}
-""")
+        pprint.pprint(word_lengths)
+        print("-"*65)
+
+        print(f"""{"LEN":<4}|{"OCCURENCES":^20}|{"NR.":>3}""")
+        print("-"*65)
+        for i, value in enumerate(word_lengths.values(), start=1):
+            print(f"{i:<4}|{len(value) * "*":<20}|{len(value):>1}")
+
     else:
         print(f"""We do not have a text with this number. Quitting the program""")
         quit()
