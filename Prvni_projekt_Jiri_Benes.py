@@ -98,10 +98,10 @@ if username in users and users[username] == password:
         pprint.pprint(word_lengths)
         print("-"*65)
 
-        print(f"""{"LEN":<4}|{"OCCURENCES":^20}|{"NR.":>3}""")
+        print(f"""{"LEN":<4}|{"OCCURENCES":^50}|{"NR.":>3}""")
         print("-"*65)
         for i, value in enumerate(word_lengths.values(), start=1):
-            print(f"{i:<4}|{len(value) * "*":<20}|{len(value):>1}")
+            print(f"{i:<4}|{len(value) * "*":<50}|{len(value):>1}")
 
     else:
         print(f"""We do not have a text with this number. Quitting the program""")
