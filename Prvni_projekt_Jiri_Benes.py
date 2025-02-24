@@ -6,7 +6,6 @@ email: Beneji125@gmail.com
 """
 
 import re
-import pprint
 
 TEXTS = ['''
 Situated about 10 miles west of Kemmerer,
@@ -53,14 +52,14 @@ if username in users and users[username] == password:
     TEXT_NUMBER = int(input("Please enter a number of the text you would like to analyze: "))
     print("-"*65)
 
-    if TEXT_NUMBER > 0 and TEXT_NUMBER <= (len(TEXTS) + 1):
+    if TEXT_NUMBER > 0 and TEXT_NUMBER <= (len(TEXTS)):
         VYBRANY_TEXT = TEXTS[TEXT_NUMBER - 1]
-        print(f"TEXT_{TEXT_NUMBER}:{VYBRANY_TEXT}")
+        print(f"TEXT_{TEXT_NUMBER}: {VYBRANY_TEXT}")
         print("-"*65)
 
         TEXT_VYCISTENY_ROZDELENY = re.sub(r'[.,!?":;\'()-]', ' ', VYBRANY_TEXT).split()
 
-        TEXT_BEZ_CISEL = []
+        POCET_SLOV = []
         TEXT_BEZ_SLOV = []
         TEXT_BEZ_SLOV_SOUCET = []
         titlecase_count = 0
@@ -71,23 +70,25 @@ if username in users and users[username] == password:
         word_lengths = {f'word_length_{n}': [] for n in range(1, range_of_words + 1)}
 
         for words_and_numbers in TEXT_VYCISTENY_ROZDELENY:
-            if words_and_numbers.isalpha():
-                TEXT_BEZ_CISEL.append(words_and_numbers)
-                if words_and_numbers.isalpha() and words_and_numbers.istitle():
-                    titlecase_count += 1
-                elif words_and_numbers.isalpha() and words_and_numbers.isupper():
-                    uppercase_count += 1
-                elif words_and_numbers.isalpha() and words_and_numbers.islower():
-                    lowercase_count += 1
-            elif words_and_numbers.isnumeric():
-                TEXT_BEZ_SLOV.append(words_and_numbers)
-                TEXT_BEZ_SLOV_SOUCET.append(int(words_and_numbers))
-            else: 
-                continue
+
             length_of_word = len(words_and_numbers)
             word_lengths[f'word_length_{length_of_word}'].append(words_and_numbers)
+            POCET_SLOV.append(words_and_numbers)
 
-        print(f"There are {(len(TEXT_BEZ_CISEL))} words in the selected text.")
+            if words_and_numbers.isnumeric():
+                TEXT_BEZ_SLOV.append(words_and_numbers)
+                TEXT_BEZ_SLOV_SOUCET.append(int(words_and_numbers))
+            elif words_and_numbers.isalnum:
+                if words_and_numbers.istitle():
+                    titlecase_count += 1
+                elif words_and_numbers.isupper():
+                    uppercase_count += 1
+                elif words_and_numbers.islower():
+                    lowercase_count += 1
+            else: 
+                continue
+
+        print(f"There are {(len(POCET_SLOV))} words in the selected text.")
         print(f"There are {(titlecase_count)} titlecase words")     
         print(f"There are {(uppercase_count)} uppercase words.")
         print(f"There are {(lowercase_count)} lowercase words.")
@@ -95,7 +96,6 @@ if username in users and users[username] == password:
         print(f"The sum of all the numbers is {sum(TEXT_BEZ_SLOV_SOUCET)}")
         print("-"*65)
 
-        pprint.pprint(word_lengths)
         print("-"*65)
 
         print(f"""{"LEN":<4}|{"OCCURENCES":^50}|{"NR.":>3}""")
