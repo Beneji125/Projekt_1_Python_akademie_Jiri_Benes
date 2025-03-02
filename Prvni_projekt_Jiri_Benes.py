@@ -7,6 +7,8 @@ email: Beneji125@gmail.com
 
 import re
 
+import pprint
+
 TEXTS = ['''
 Situated about 10 miles west of Kemmerer,
 Fossil Butte is a ruggedly impressive
@@ -14,7 +16,7 @@ topographic feature that rises sharply
 some 1000 feet above Twin Creek Valley
 to an elevation of more than 7500 feet
 above sea level. The butte is located just
-north of US 30N and the Union Pacific Railroad,
+north of US 30 and the Union Pacific Railroad,
 which traverse the valley. ''',
 '''At the base of Fossil Butte are the bright
 red, purple, yellow and gray beds of the Wasatch
@@ -60,11 +62,11 @@ if username in users and users[username] == password:
         TEXT_VYCISTENY_ROZDELENY = re.sub(r'[.,!?":;\'()-]', ' ', VYBRANY_TEXT).split()
 
         POCET_SLOV = []
-        TEXT_BEZ_SLOV = []
-        TEXT_BEZ_SLOV_SOUCET = []
-        titlecase_count = 0
-        uppercase_count = 0
-        lowercase_count = 0
+        TEXT_POUZE_CISLA = []
+        TEXT_POUZE_CISLA_SOUCET = []
+        TITLECASE_COUNT = []
+        UPPERCASE_COUNT = []
+        LOWERCASE_COUNT = []
 
         range_of_words = len(max(TEXT_VYCISTENY_ROZDELENY, key=len)) 
         word_lengths = {f'word_length_{n}': [] for n in range(1, range_of_words + 1)}
@@ -75,25 +77,29 @@ if username in users and users[username] == password:
             word_lengths[f'word_length_{length_of_word}'].append(words_and_numbers)
             POCET_SLOV.append(words_and_numbers)
 
-            if words_and_numbers.isnumeric():
-                TEXT_BEZ_SLOV.append(words_and_numbers)
-                TEXT_BEZ_SLOV_SOUCET.append(int(words_and_numbers))
-            elif words_and_numbers.isalnum:
+            if words_and_numbers.isalpha():
                 if words_and_numbers.istitle():
-                    titlecase_count += 1
+                    TITLECASE_COUNT.append(words_and_numbers)
                 elif words_and_numbers.isupper():
-                    uppercase_count += 1
+                    UPPERCASE_COUNT.append(words_and_numbers)
                 elif words_and_numbers.islower():
-                    lowercase_count += 1
+                    LOWERCASE_COUNT.append(words_and_numbers)
+
+            elif words_and_numbers.isnumeric():
+                TEXT_POUZE_CISLA.append(words_and_numbers)
+                TEXT_POUZE_CISLA_SOUCET.append(int(words_and_numbers))
+
             else: 
                 continue
 
         print(f"There are {(len(POCET_SLOV))} words in the selected text.")
-        print(f"There are {(titlecase_count)} titlecase words")     
-        print(f"There are {(uppercase_count)} uppercase words.")
-        print(f"There are {(lowercase_count)} lowercase words.")
-        print(f"There are {(len(TEXT_BEZ_SLOV))} numeric strings.")
-        print(f"The sum of all the numbers is {sum(TEXT_BEZ_SLOV_SOUCET)}")
+        print(f"There are {(len(TITLECASE_COUNT))} titlecase words in the selected text.")   
+        print(f"There are {(len(UPPERCASE_COUNT))} uppercase words.")
+        print(f"There are {(len(LOWERCASE_COUNT))} lowercase words.")
+        print(f"There are {(len(TEXT_POUZE_CISLA))} numeric strings.")
+        print(f"The sum of all the numbers is {sum(TEXT_POUZE_CISLA_SOUCET)}")
+        print(POCET_SLOV)
+        pprint.pprint(word_lengths)
         print("-"*65)
 
         print("-"*65)
