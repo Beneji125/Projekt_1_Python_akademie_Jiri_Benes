@@ -91,7 +91,6 @@ if username in users and users[username] == password:
             
             elif words_and_numbers.isalnum():
                 numbers = re.findall(r'\d+', words_and_numbers)
-                TEXT_POUZE_CISLA.extend(numbers)
                 TEXT_POUZE_CISLA_SOUCET.extend(map(int, numbers))
 
             else: 
