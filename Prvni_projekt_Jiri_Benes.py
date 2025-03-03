@@ -88,6 +88,11 @@ if username in users and users[username] == password:
             elif words_and_numbers.isnumeric():
                 TEXT_POUZE_CISLA.append(words_and_numbers)
                 TEXT_POUZE_CISLA_SOUCET.append(int(words_and_numbers))
+            
+            elif words_and_numbers.isalnum():
+                numbers = re.findall(r'\d+', words_and_numbers)
+                TEXT_POUZE_CISLA.extend(numbers)
+                TEXT_POUZE_CISLA_SOUCET.extend(map(int, numbers))
 
             else: 
                 continue
@@ -98,8 +103,6 @@ if username in users and users[username] == password:
         print(f"There are {(len(LOWERCASE_COUNT))} lowercase words.")
         print(f"There are {(len(TEXT_POUZE_CISLA))} numeric strings.")
         print(f"The sum of all the numbers is {sum(TEXT_POUZE_CISLA_SOUCET)}")
-        print(POCET_SLOV)
-        pprint.pprint(word_lengths)
         print("-"*65)
 
         print("-"*65)
@@ -110,9 +113,9 @@ if username in users and users[username] == password:
             print(f"{i:<4}|{len(value) * "*":<50}|{len(value):>1}")
 
     else:
-        print(f"""We do not have a text with this number. Quitting the program""")
+        print(f"We do not have a text with this number. Quitting the program.")
         quit()
 
 else:
-    print("Username or Password is inccorect. Quitting the program")
+    print("Username or Password is inccorect. Quitting the program.")
     quit()
